@@ -1,10 +1,5 @@
 part of values;
 
-class Utils {
-  static final double screenWidth = Get.width;
-  static final double screenHeight = Get.width;
-}
-
 class SineCurve extends Curve {
   final double count;
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
-import 'Screens/splash_screen.dart';
+import 'config/app_router.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Taskez',
       theme: ThemeData(
@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
       ),
-      home: const SplashScreen(),
+      onGenerateRoute: AppRouter.onGenerateRoute,
+      initialRoute: SplashScreen.routeName,
     );
   }
 }

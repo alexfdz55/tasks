@@ -8,8 +8,18 @@ import 'package:tasks/widgets/Navigation/app_header.dart';
 import 'package:tasks/widgets/employee_card.dart';
 
 class SetAssigneesScreen extends StatelessWidget {
-  final TextEditingController _searchController = TextEditingController();
   SetAssigneesScreen({Key? key}) : super(key: key);
+
+  static const String routeName = '/set-assingees';
+
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => SetAssigneesScreen(),
+      settings: const RouteSettings(name: routeName),
+    );
+  }
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

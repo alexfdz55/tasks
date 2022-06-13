@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasks/Values/values.dart';
+import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/Buttons/primary_progress_button.dart';
 import 'package:tasks/widgets/dark_background/dark_radial_background.dart';
 import 'package:tasks/widgets/Navigation/app_header.dart';
 import 'package:tasks/widgets/table_calendar.dart';
 
-class TaskDueDate extends StatelessWidget {
-  const TaskDueDate({Key? key}) : super(key: key);
+class TaskDueDateScreen extends StatelessWidget {
+  const TaskDueDateScreen({Key? key}) : super(key: key);
+
+  static const String routeName = '/task-due';
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const TaskDueDateScreen(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return Scaffold(
         body: Stack(children: [
       DarkRadialBackground(
@@ -82,7 +92,7 @@ class TaskDueDate extends StatelessWidget {
         bottom: 50,
         child: Container(
           padding: const EdgeInsets.only(left: 40, right: 20),
-          width: Utils.screenWidth,
+          width: responsive.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

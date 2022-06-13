@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/Values/values.dart';
 import 'package:tasks/screens/screens.dart';
@@ -25,21 +25,23 @@ class ProjectCardHorizontal extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(
-          () => ProjectDetails(
-            category: category,
-            projectName: projectName,
-            color: color,
-          ),
-        );
+        Navigator.pushNamed(context, ProjectDetailsScreen.routeName);
+        // Get.to(
+        //   () => ProjectDetailsScreen(
+        //     caProjectDetailsScreenry,
+        //     projectName: projectName,
+        //     color: color,
+        //   ),
+        // );
       },
       child: Container(
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              color: HexColor.fromHex("20222A"),
-              borderRadius: BorderRadius.circular(20)),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+            color: HexColor.fromHex("20222A"),
+            borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,8 +95,10 @@ class ProjectCardHorizontal extends StatelessWidget {
                         ])))),
                     Expanded(flex: ratingsLowerNumber, child: SizedBox())
                   ])),
-            )
-          ])),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

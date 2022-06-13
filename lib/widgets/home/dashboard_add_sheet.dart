@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:tasks/screens/screens.dart';
 import 'package:tasks/widgets/BottomSheets/bottom_sheets.dart';
 import 'package:tasks/Values/values.dart';
@@ -26,19 +26,23 @@ class DashboardAddBottomSheet extends StatelessWidget {
           label: 'Create Project',
           icon: Icons.device_hub,
           callback: () {
-            Get.to(() => const CreateProjectScreen());
+            Navigator.pushNamed(context, CreateProjectScreen.routeName);
+            // Get.to(() => const CreateProjectScreen());
           }),
       LabelledOption(
           label: 'Create team',
           icon: Icons.people,
           callback: () {
-            Get.to(() => SelectMembersScreen());
+            Navigator.pushNamed(context, SelectMembersScreen.routeName);
+            // Get.to(() => SelectMembersScreen());
           }),
       LabelledOption(
           label: 'Create Event',
           icon: Icons.fiber_smart_record,
           callback: () {
-            Get.to(() => TaskDueDate());
+            Navigator.pushNamed(context, TaskDueDateScreen.routeName);
+
+            // Get.to(() => TaskDueDateScreen());
           }),
     ]);
   }

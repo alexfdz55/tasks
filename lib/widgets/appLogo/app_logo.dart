@@ -1,36 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:tasks/Values/values.dart';
+import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/AppLogo/triplets.dart';
 
 class AppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      RotatedBox(
-        quarterTurns: 3,
-        child: CustomPaint(
-          size: Size(
-              Utils.screenWidth,
-              (Utils.screenWidth)
-                  .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-          painter: RPSCustomPainter(),
-          // child: Icon(Icons.ac_unit_outlined, color: Colors.white),
+    final responsive = Responsive(context);
+    return Stack(
+      children: [
+        RotatedBox(
+          quarterTurns: 3,
+          child: CustomPaint(
+            size: Size(
+                responsive.width,
+                (responsive.width)
+                    .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+            painter: RPSCustomPainter(),
+            // child: Icon(Icons.ac_unit_outlined, color: Colors.white),
+          ),
         ),
-      ),
-      Positioned(
-          top: Utils.screenHeight / 1.4,
-          left: Utils.screenWidth / 4,
+        Positioned(
+          top: responsive.height / 1.4,
+          left: responsive.width / 4,
           child: Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: HexColor.fromHex("#84c16c")),
-              width: 50,
-              height: 50,
-              child: Icon(Icons.done, color: Colors.white))),
-      Positioned(
-          top: Utils.screenHeight / 1.25,
-          left: Utils.screenWidth / 11,
-          child: TripletsLogo())
-    ]);
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: HexColor.fromHex("#84c16c")),
+            width: 50,
+            height: 50,
+            child: const Icon(Icons.done, color: Colors.white),
+          ),
+        ),
+        Positioned(
+          top: responsive.height / 1.25,
+          left: responsive.width / 11,
+          child: TripletsLogo(),
+        ),
+      ],
+    );
   }
 }
 

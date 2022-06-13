@@ -4,10 +4,20 @@ import 'package:tasks/Values/values.dart';
 import 'package:tasks/models/models.dart';
 import 'package:tasks/widgets/Buttons/primary_tab_buttons.dart';
 import 'package:tasks/widgets/Forms/search_box.dart';
-import 'package:tasks/widgets/Search/task_card.dart';
+import 'package:tasks/widgets/tasks/task_card.dart';
 
 class TasksScreen extends StatelessWidget {
   TasksScreen({Key? key}) : super(key: key);
+
+  static const String routeName = '/tasks';
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => TasksScreen(),
+    );
+  }
+
   final _searchController = TextEditingController();
   final ValueNotifier<int> _settingsButtonTrigger = ValueNotifier(0);
 

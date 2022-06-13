@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:tasks/widgets/Shapes/roundedborder_with_icon.dart';
 
 class AppBackButton extends StatelessWidget {
@@ -8,10 +7,8 @@ class AppBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.back();
-      },
-      child: RoundedBorderWithIcon(icon: Icons.arrow_back),
+      onTap: () => Navigator.pop(context),
+      child: const RoundedBorderWithIcon(icon: Icons.arrow_back),
     );
   }
 }

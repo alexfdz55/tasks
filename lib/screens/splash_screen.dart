@@ -1,26 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/Values/values.dart';
 import 'package:tasks/screens/screens.dart';
 import 'package:tasks/widgets/AppLogo/app_logo.dart';
 import 'package:tasks/widgets/dark_background/dark_radial_background.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+class SplashScreen extends StatelessWidget {
+  SplashScreen({Key? key}) : super(key: key);
+  static const String routeName = '/splash';
 
-  @override
-  // ignore: library_private_types_in_public_api
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
-      Get.to(() => PrincipalScreen());
-    });
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => SplashScreen(),
+    );
   }
 
   final Shader linearGradient = LinearGradient(
@@ -30,6 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Timer(
+      const Duration(seconds: 1),
+      () => Navigator.pushNamed(context, PrincipalScreen.routeName),
+    );
     return Scaffold(
       body: Stack(children: [
         DarkRadialBackground(

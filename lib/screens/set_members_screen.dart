@@ -8,8 +8,18 @@ import 'package:tasks/widgets/Navigation/app_header.dart';
 import 'package:tasks/widgets/employee_card.dart';
 
 class SelectMembersScreen extends StatelessWidget {
-  final TextEditingController _searchController = TextEditingController();
   SelectMembersScreen({Key? key}) : super(key: key);
+
+  static const String routeName = '/set-members';
+
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => SelectMembersScreen(),
+      settings: const RouteSettings(name: routeName),
+    );
+  }
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

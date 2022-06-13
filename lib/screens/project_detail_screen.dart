@@ -9,19 +9,28 @@ import 'package:tasks/widgets/Projects/project_task_card.dart';
 import 'package:tasks/widgets/Shapes/app_settings_icon.dart';
 
 // ignore: must_be_immutable
-class ProjectDetails extends StatelessWidget {
-  final String color;
-  final String projectName;
-  final String category;
-  ProjectDetails(
-      {Key? key,
-      required this.color,
-      required this.projectName,
-      required this.category})
-      : super(key: key);
+class ProjectDetailsScreen extends StatelessWidget {
+  // final String color;
+  // final String projectName;
+  // final String category;
+  ProjectDetailsScreen({
+    Key? key,
+    // required this.color,
+    // required this.projectName,
+    // required this.category,
+  }) : super(key: key);
 
-  ValueNotifier<int> _settingsButtonTrigger = ValueNotifier(0);
-  ValueNotifier<int> _layoutButtonTrigger = ValueNotifier(0);
+  static const String routeName = '/project-details';
+
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => ProjectDetailsScreen(),
+      settings: const RouteSettings(name: routeName),
+    );
+  }
+
+  final ValueNotifier<int> _settingsButtonTrigger = ValueNotifier(0);
+  final ValueNotifier<int> _layoutButtonTrigger = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +48,12 @@ class ProjectDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ProjectDetailAppBar(
-                      category: category,
-                      color: color,
+                      category: 'category',
+                      color: 'A06AFA',
                       iconTapped: (() {
                         // showSettingsBottomSheet(c);
                       }),
-                      projectName: projectName,
+                      projectName: 'projectName',
                     ),
                     AppSpaces.verticalSpace20,
                     Row(
@@ -95,7 +104,7 @@ class ProjectDetails extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                   color: HexColor.fromHex("616575"),
                                 )),
-                            children: [
+                            children: const [
                               ProjectTaskCard(
                                   activated: true,
                                   header: "Orientation",
@@ -127,7 +136,7 @@ class ProjectDetails extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                   color: HexColor.fromHex("616575"),
                                 )),
-                            children: [
+                            children: const [
                               ProjectTaskCard(
                                   activated: false,
                                   header: "Onboarding Screens",
@@ -168,13 +177,13 @@ class ProjectDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
           ),
           children: [
-            LayoutListTile(
+            const LayoutListTile(
               index: 0,
               icon: Icons.checklist,
               title: 'List',
             ),
             Divider(height: 1, color: HexColor.fromHex("353742")),
-            LayoutListTile(
+            const LayoutListTile(
               index: 1,
               icon: Icons.dashboard,
               title: 'Board',

@@ -14,6 +14,15 @@ class PrincipalScreen extends StatelessWidget {
 
   ValueNotifier<int> bottomNavigatorTrigger = ValueNotifier(0);
 
+  static const String routeName = '/';
+
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => PrincipalScreen(),
+      settings: const RouteSettings(name: routeName),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

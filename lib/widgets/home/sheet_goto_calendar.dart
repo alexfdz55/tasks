@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/Values/values.dart';
 import 'package:tasks/screens/screens.dart';
@@ -21,7 +20,9 @@ class SheetGoToCalendarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => TaskDueDate());
+        Navigator.pushNamed(context, TaskDueDateScreen.routeName);
+
+        // Get.to(() => TaskDueDateScreen());
       },
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CircularCalendarCard(color: cardBackgroundColor),

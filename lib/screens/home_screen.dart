@@ -11,6 +11,15 @@ import '../widgets/home/tabs/productivity.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
+  static const String routeName = '/home';
+
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => HomeScreen(),
+      settings: const RouteSettings(name: routeName),
+    );
+  }
+
   final ValueNotifier<int> _buttonTrigger = ValueNotifier(0);
 
   @override

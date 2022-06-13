@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasks/Values/values.dart';
+import 'package:tasks/values/values.dart';
 
 class LayoutListTile extends StatelessWidget {
   final String title;
@@ -16,8 +16,9 @@ class LayoutListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return Container(
-      width: Utils.screenWidth - 80,
+      width: responsive.width - 80,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
         child: Row(

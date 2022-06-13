@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasks/Values/values.dart';
+import 'package:tasks/values/values.dart';
 
 class PostBottomWidget extends StatelessWidget {
   final String label;
@@ -11,11 +11,13 @@ class PostBottomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final responsive  = Responsive(context);
+
     return Positioned(
       bottom: 0,
       child: Container(
         padding: const EdgeInsets.only(left: 20),
-        width: Utils.screenWidth,
+        width: responsive.width,
         height: 120,
         decoration: BoxDecoration(
             color: AppColors.primaryBackgroundColor,

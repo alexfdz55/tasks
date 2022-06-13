@@ -2,17 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:tasks/models/data_model.dart';
 import 'package:tasks/values/values.dart';
-import 'package:tasks/widgets/Buttons/primary_tab_buttons.dart';
-import 'package:tasks/widgets/Chat/add_chat_icon.dart';
-import 'package:tasks/widgets/Navigation/app_header.dart';
-import 'package:tasks/widgets/Projects/project_card_horizontal.dart';
-import 'package:tasks/widgets/Projects/project_card_vertical.dart';
+import 'package:tasks/widgets/buttons/primary_tab_buttons.dart';
+import 'package:tasks/widgets/navigation/app_header.dart';
+import 'package:tasks/widgets/chat/add_chat_icon.dart';
+import 'package:tasks/widgets/projects/project_card_horizontal.dart';
+import 'package:tasks/widgets/projects/project_card_vertical.dart';
 
 class ProjectScreen extends StatelessWidget {
   ProjectScreen({Key? key}) : super(key: key);
 
-  ValueNotifier<int> _settingsButtonTrigger = ValueNotifier(0);
-  ValueNotifier<bool> _switchGridLayout = ValueNotifier(false);
+  static const String routeName = '/project';
+
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => ProjectScreen(),
+      settings: const RouteSettings(name: routeName),
+    );
+  }
+
+  final ValueNotifier<int> _settingsButtonTrigger = ValueNotifier(0);
+  final ValueNotifier<bool> _switchGridLayout = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
