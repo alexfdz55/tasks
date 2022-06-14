@@ -18,32 +18,28 @@ class DashboardAddBottomSheet extends StatelessWidget {
       const BottomSheetHolder(),
       AppSpaces.verticalSpace10,
       LabelledOption(
-        label: 'Create Task',
+        label: 'Crear Tarea',
         icon: Icons.add_to_queue,
         callback: () => _createTask(context),
       ),
       LabelledOption(
-          label: 'Create Project',
-          icon: Icons.device_hub,
-          callback: () {
-            Navigator.pushNamed(context, CreateProjectScreen.routeName);
-            // Get.to(() => const CreateProjectScreen());
-          }),
+        label: 'Crear Proyecto',
+        icon: Icons.device_hub,
+        callback: () =>
+            Navigator.pushNamed(context, CreateProjectScreen.routeName),
+      ),
+      // LabelledOption(
+      //   label: 'Crear team',
+      //   icon: Icons.people,
+      //   callback: () =>
+      //       Navigator.pushNamed(context, SelectMembersScreen.routeName),
+      // ),
       LabelledOption(
-          label: 'Create team',
-          icon: Icons.people,
-          callback: () {
-            Navigator.pushNamed(context, SelectMembersScreen.routeName);
-            // Get.to(() => SelectMembersScreen());
-          }),
-      LabelledOption(
-          label: 'Create Event',
-          icon: Icons.fiber_smart_record,
-          callback: () {
-            Navigator.pushNamed(context, TaskDueDateScreen.routeName);
-
-            // Get.to(() => TaskDueDateScreen());
-          }),
+        label: 'Crear Evento',
+        icon: Icons.fiber_smart_record,
+        callback: () =>
+            Navigator.pushNamed(context, TaskDueDateScreen.routeName),
+      ),
     ]);
   }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tasks/Values/values.dart';
 import 'package:tasks/values/constants.dart';
+import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/BottomSheets/bottom_sheets.dart';
 import 'package:tasks/widgets/dark_background/dark_radial_background.dart';
 import 'package:tasks/widgets/home/bottomNavigationItem.dart';
@@ -71,10 +71,8 @@ class PrincipalScreen extends StatelessWidget {
               iconTapped: (() {
                 showAppBottomSheet(
                   context,
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    child: const DashboardAddBottomSheet(),
-                  ),
+                  const DashboardAddBottomSheet(),
+                  height: Responsive(context).hp(35),
                 );
               }),
             ),

@@ -22,7 +22,7 @@ class Task extends Equatable {
   const Task({
     required this.id,
     required this.title,
-    required this.priority,
+    this.priority = TaskPriority.low,
     this.dateTime,
     this.description,
     this.isCompleted = false,

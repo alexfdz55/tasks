@@ -14,6 +14,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         super(TasksLoading()) {
     on<LoadTasks>(_onLoadTasks);
 
+    on<AddTask>(_onAddTask);
+
     on<UpdateTask>(_onUpdateTask);
 
     on<RemoveTask>(_onRemoveTask);
@@ -26,6 +28,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     // await Future.delayed(const Duration(m));
     emit(TasksLoaded(tasks: tasks));
+  }
+
+  void _onAddTask(AddTask event, Emitter<TaskState> emit) async {
+    emit(TasksLoading());
+    await _bdRepository.addTask(event.task);
+    add(LoadTasks());
   }
 
   void _onRemoveTask(RemoveTask event, Emitter<TaskState> emit) async {

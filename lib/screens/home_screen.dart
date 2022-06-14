@@ -56,12 +56,12 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       PrimaryTabButton(
-                        buttonText: "Overview",
+                        buttonText: "Resumen",
                         itemIndex: 0,
                         notifier: _buttonTrigger,
                       ),
                       PrimaryTabButton(
-                        buttonText: "Productivity",
+                        buttonText: "Productividad",
                         itemIndex: 1,
                         notifier: _buttonTrigger,
                       )

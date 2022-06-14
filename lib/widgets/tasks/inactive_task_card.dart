@@ -5,15 +5,16 @@ import 'package:tasks/Values/values.dart';
 import 'package:tasks/blocs/blocs.dart';
 import 'package:tasks/models/models.dart';
 import 'package:tasks/widgets/dummy/green_done_icon.dart';
-import 'package:tasks/widgets/tasks/task_card.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 class InactiveTaskCard extends StatelessWidget {
   final Task task;
-  final ValueNotifier<bool> notifier;
+  // final ValueNotifier<bool> notifier;
   const InactiveTaskCard({
     Key? key,
     required this.task,
-    required this.notifier,
+    // required this.notifier,
   }) : super(key: key);
 
   @override

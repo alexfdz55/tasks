@@ -5,16 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/Values/values.dart';
 import 'package:tasks/blocs/blocs.dart';
 import 'package:tasks/models/models.dart';
-import 'package:tasks/widgets/tasks/task_card.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 class ActiveTaskCard extends StatelessWidget {
   final Task task;
-  final ValueNotifier<bool> notifier;
+  // final ValueNotifier<bool> notifier;
   final VoidCallback onDelete;
 
   const ActiveTaskCard({
     Key? key,
-    required this.notifier,
+    // required this.notifier,
     required this.task,
     required this.onDelete,
   }) : super(key: key);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasks/blocs/blocs.dart';
 import 'package:tasks/models/task_model.dart';
 import 'package:tasks/Values/values.dart';
 import 'package:tasks/widgets/BottomSheets/bottom_sheet_holder.dart';
@@ -13,6 +15,9 @@ class CreateTaskBottomSheet extends StatelessWidget {
 
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
+  TaskPriority _taskPriority = TaskPriority.low;
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,38 +57,50 @@ class CreateTaskBottomSheet extends StatelessWidget {
                       width: 250,
                       content: "Crear Tarea",
                       onPressed: () {
-                        Navigator.pop(context);
+                        if (_formKey.currentState!.validate()) {
+                          BlocProvider.of<TaskBloc>(context).add(
+                            AddTask(
+                              Task(
+                                id: DateTime.now().toString(),
+                                title: _nameController.text,
+                                description: _descriptionController.text,
+                                priority: _taskPriority,
+                              ),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        }
                       },
                     ),
                   ),
-                ),
 
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     SizedBox(
-                //       width: Utils.screenWidth * 0.6,
-                //       child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //         children: [
-                //           const BottomSheetIcon(
-                //               icon: Icons.local_offer_outlined),
-                //           Transform.rotate(
-                //               angle: 195.2,
-                //               child: const BottomSheetIcon(
-                //                   icon: Icons.attach_file)),
-                //           const BottomSheetIcon(icon: FeatherIcons.flag),
-                //           const BottomSheetIcon(icon: FeatherIcons.image)
-                //         ],
-                //       ),
-                //     ),
-                //     AddSubIcon(
-                //       scale: 0.8,
-                //       color: AppColors.primaryAccentColor,
-                //       callback: () => _addProject,
-                //     ),
-                //   ],
-                // )
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     SizedBox(
+                  //       width: Utils.screenWidth * 0.6,
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //         children: [
+                  //           const BottomSheetIcon(
+                  //               icon: Icons.local_offer_outlined),
+                  //           Transform.rotate(
+                  //               angle: 195.2,
+                  //               child: const BottomSheetIcon(
+                  //                   icon: Icons.attach_file)),
+                  //           const BottomSheetIcon(icon: FeatherIcons.flag),
+                  //           const BottomSheetIcon(icon: FeatherIcons.image)
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     AddSubIcon(
+                  //       scale: 0.8,
+                  //       color: AppColors.primaryAccentColor,
+                  //       callback: () => _addProject,
+                  //     ),
+                  //   ],
+                  // )
+                ),
               ],
             ),
           ),
@@ -106,13 +123,24 @@ class CreateTaskBottomSheet extends StatelessWidget {
           ),
         ),
         AppSpaces.horizontalSpace20,
-        Expanded(
-          child: UnlabelledFormInput(
-            placeholder: "Task Name ....",
-            autofocus: true,
-            keyboardType: "text",
-            controller: _nameController,
-            obscureText: false,
+        Form(
+          autovalidateMode: AutovalidateMode.always,
+          key: _formKey,
+          child: Expanded(
+            child: UnlabelledFormInput(
+              placeholder: "Nombre",
+              autofocus: true,
+              keyboardType: "text",
+              controller: _nameController,
+              obscureText: false,
+              textValidation: 'Nombre requerido',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ingrese un nombre';
+                }
+                return null; // Válido
+              },
+            ),
           ),
         ),
       ],
@@ -138,11 +166,11 @@ class CreateTaskBottomSheet extends StatelessWidget {
   }
 
   Widget _buildDropdownPriority() {
-    final priorities = TaskPriority.values.map((e) => e.name).toList();
+    final priorities = TaskPriority.values.map((e) => e).toList();
 
     return SizedBox(
       width: 100,
-      child: DropdownButtonFormField(
+      child: DropdownButtonFormField<TaskPriority>(
         iconSize: 20,
         dropdownColor: AppColors.primaryBackgroundColor,
         iconEnabledColor: Colors.white,
@@ -156,13 +184,15 @@ class CreateTaskBottomSheet extends StatelessWidget {
               (priority) => DropdownMenuItem(
                 value: priority,
                 child: Text(
-                  priority,
+                  priority.name,
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
             )
             .toList(),
-        onChanged: (value) {},
+        onChanged: (value) {
+          _taskPriority = value!;
+        },
       ),
     );
   }

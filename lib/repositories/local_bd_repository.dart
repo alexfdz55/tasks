@@ -18,13 +18,7 @@ class LocalBDRepository extends BaseLocalBDRepository {
 
   @override
   Future<void> updateTask(Task task) async {
-    // _tasks.firstWhere((element) => element == task) = task;
-
-    // print(_tasks.indexWhere((element) => element.id == task.id));
-
     _tasks[_tasks.indexWhere((element) => element.id == task.id)] = task;
-    // final index = _tasks.indexWhere((element) => task == element);
-    // _tasks.replaceRange(index, index, task);
   }
 
   @override
