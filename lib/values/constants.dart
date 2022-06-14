@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasks/Values/values.dart';
+import 'package:tasks/values/values.dart';
 import 'package:tasks/screens/screens.dart';
 
 String tabSpace = "\t\t\t";

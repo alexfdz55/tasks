@@ -38,6 +38,7 @@ class _CalendarViewState extends State<CalendarView> {
     if (day.weekday == DateTime.tuesday) {
       return [
         Task(
+          id: '0',
           title: 'Dsa',
           priority: TaskPriority.max,
           dateTime: day,

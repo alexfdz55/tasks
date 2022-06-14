@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/Values/values.dart';
+import 'package:tasks/blocs/blocs.dart';
 import 'package:tasks/models/models.dart';
 import 'package:tasks/widgets/tasks/task_card.dart';
 
 class ActiveTaskCard extends StatelessWidget {
   final Task task;
   final ValueNotifier<bool> notifier;
+  final VoidCallback onDelete;
 
   const ActiveTaskCard({
     Key? key,
     required this.notifier,
     required this.task,
+    required this.onDelete,
   }) : super(key: key);
 
   @override
@@ -25,6 +29,7 @@ class ActiveTaskCard extends StatelessWidget {
           //caption: 'More',
           color: HexColor.fromHex("B1FEE2"),
           icon: Icons.share,
+          onTap: () {},
 
           // onTap: () => _showSnackBar('More'),
         ),
@@ -32,12 +37,15 @@ class ActiveTaskCard extends StatelessWidget {
           //caption: 'Delete',
           iconWidget: const Icon(Icons.delete, size: 35),
           color: HexColor.fromHex("F5A3FF"),
+          onTap: onDelete,
 
           // onTap: () => _showSnackBar('Delete'),
         ),
       ],
       child: InkWell(
-        onTap: () => notifier.value = !notifier.value,
+        // onTap: () => notifier.value = !notifier.value,
+        onTap: () => BlocProvider.of<TaskBloc>(context)
+            .add(UpdateTask(task.copyWith(isCompleted: !task.isCompleted))),
         child: Container(
           width: double.infinity,
           height: 150,

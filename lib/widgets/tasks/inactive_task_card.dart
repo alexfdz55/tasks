@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/Values/values.dart';
+import 'package:tasks/blocs/blocs.dart';
 import 'package:tasks/models/models.dart';
 import 'package:tasks/widgets/dummy/green_done_icon.dart';
 import 'package:tasks/widgets/tasks/task_card.dart';
@@ -17,7 +19,11 @@ class InactiveTaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => notifier.value = !notifier.value,
+      // onTap: () => notifier.value = !notifier.value,
+      onTap: () {
+        BlocProvider.of<TaskBloc>(context)
+            .add(UpdateTask(task.copyWith(isCompleted: !task.isCompleted)));
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         width: double.infinity,

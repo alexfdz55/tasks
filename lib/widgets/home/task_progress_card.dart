@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasks/Constants/constants.dart';
 import 'package:tasks/Values/values.dart';
+import 'package:tasks/values/constants.dart';
 
 class TaskProgressCard extends StatelessWidget {
   final String cardTitle;

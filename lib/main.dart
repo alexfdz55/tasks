@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasks/blocs/blocs.dart';
+import 'package:tasks/repositories/repositories.dart';
 
 import 'config/app_router.dart';
 import 'screens/splash_screen.dart';
@@ -19,17 +22,29 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Taskez',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        appBarTheme: const AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle.light,
+    return MultiRepositoryProvider(
+      providers: [RepositoryProvider(create: (context) => LocalBDRepository())],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => TaskBloc(
+                bdRepository: RepositoryProvider.of<LocalBDRepository>(context))
+              ..add(LoadTasks()),
+          )
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Taskez',
+          theme: ThemeData(
+            brightness: Brightness.light,
+            appBarTheme: const AppBarTheme(
+              systemOverlayStyle: SystemUiOverlayStyle.light,
+            ),
+          ),
+          onGenerateRoute: AppRouter.onGenerateRoute,
+          initialRoute: SplashScreen.routeName,
         ),
       ),
-      onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: SplashScreen.routeName,
     );
   }
 }
