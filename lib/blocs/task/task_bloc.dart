@@ -14,7 +14,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         super(TasksLoading()) {
     on<LoadTasks>(_onLoadTasks);
 
-    on<CreateTask>(_onCreateTask);
+    // on<CreateTask>(_onCreateTask);
 
     on<AddTask>(_onAddTask);
 
@@ -38,9 +38,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     add(LoadTasks());
   }
 
-  void _onCreateTask(CreateTask event, Emitter<TaskState> emit) async {
-    emit(TaskShowed(event.task));
-  }
+  // void _onCreateTask(CreateTask event, Emitter<TaskState> emit) async {
+  //   emit(TaskShowed(event.task));
+  // }
 
   void _onRemoveTask(RemoveTask event, Emitter<TaskState> emit) async {
     emit(TasksLoading());

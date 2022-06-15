@@ -42,6 +42,7 @@ class _CalendarViewState extends State<CalendarView> {
           id: '0',
           title: 'Dsa',
           priority: TaskPriority.max,
+          hexColor: '6b64d1',
           dateTime: day,
         ),
       ];

@@ -59,17 +59,38 @@ class CircularCalendarCard extends StatelessWidget {
   }
 }
 
+class CircularColorCard extends StatelessWidget {
+  final ValueNotifier<Color> notifier;
+  const CircularColorCard({
+    Key? key,
+    required this.notifier,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: notifier,
+      builder: (BuildContext context, Color color, __) => Container(
+        width: 40 * 1.5,
+        height: 40 * 1.5,
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        child: const Icon(Icons.color_lens, color: Colors.white),
+      ),
+    );
+  }
+}
+
 class CircularCardLabel extends StatelessWidget {
   final String? label;
   final String? value;
   final Color? color;
-  // final ValueNotifier<DateTime>? notifier;
+  final ValueNotifier<DateTime?>? notifier;
   const CircularCardLabel({
     Key? key,
     this.label,
     this.color,
     this.value,
-    // this.notifier,
+    this.notifier,
   }) : super(key: key);
 
   @override
@@ -83,23 +104,23 @@ class CircularCardLabel extends StatelessWidget {
         Text(label!,
             style: GoogleFonts.lato(
                 fontSize: 16, color: HexColor.fromHex("626777"))),
-        Text(
-          value!,
-          // notifier!.value == DateTime(1900)
-          //     ? '_______'
-          //     : DateFormat('dd/MM/y').format(notifier!.value),
-          style: GoogleFonts.lato(fontSize: 16, color: color),
-        ),
-        // ValueListenableBuilder(
-        //   valueListenable: notifier!,
-        //   builder: (BuildContext context, _, __) => Text(
-        //     value!,
-        //     // notifier!.value == DateTime(1900)
-        //     //     ? '_______'
-        //     //     : DateFormat('dd/MM/y').format(notifier!.value),
-        //     style: GoogleFonts.lato(fontSize: 16, color: color),
-        //   ),
+        // Text(
+        //   value!,
+        //   // notifier!.value == DateTime(1900)
+        //   //     ? '_______'
+        //   //     : DateFormat('dd/MM/y').format(notifier!.value),
+        //   style: GoogleFonts.lato(fontSize: 16, color: color),
         // ),
+        ValueListenableBuilder(
+          valueListenable: notifier!,
+          builder: (BuildContext context, _, __) => Text(
+            // value!,
+            notifier!.value == null
+                ? '_______'
+                : DateFormat('dd/MM/y').format(notifier!.value!),
+            style: GoogleFonts.lato(fontSize: 16, color: color),
+          ),
+        ),
       ],
     );
   }

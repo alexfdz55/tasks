@@ -9,14 +9,14 @@ abstract class TaskEvent extends Equatable {
 
 class LoadTasks extends TaskEvent {}
 
-class CreateTask extends TaskEvent {
-  final Task task;
+// class CreateTask extends TaskEvent {
+//   final Task task;
 
-  const CreateTask(this.task);
+//   const CreateTask(this.task);
 
-  @override
-  List<Object> get props => [task];
-}
+//   @override
+//   List<Object> get props => [task];
+// }
 
 class AddTask extends TaskEvent {
   final Task task;

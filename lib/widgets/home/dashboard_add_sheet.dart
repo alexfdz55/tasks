@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:tasks/screens/screens.dart';
+import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/BottomSheets/bottom_sheets.dart';
-import 'package:tasks/Values/values.dart';
 import 'package:tasks/widgets/BottomSheets/bottom_sheet_holder.dart';
 import 'labelled_option.dart';
 
@@ -47,6 +47,7 @@ class DashboardAddBottomSheet extends StatelessWidget {
     showAppBottomSheet(
       context,
       CreateTaskBottomSheet(),
+      height: Responsive(context).hp(70),
       isScrollControlled: true,
       popAndShow: true,
     );
