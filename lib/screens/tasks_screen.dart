@@ -104,12 +104,14 @@ class TasksScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.only(top: 20),
             height: 60,
-            child: Text("Cancel",
-                textAlign: TextAlign.right,
-                style: GoogleFonts.lato(
-                    color: HexColor.fromHex("616575"),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold)),
+            child: Text(
+              "Cancel",
+              textAlign: TextAlign.right,
+              style: GoogleFonts.lato(
+                  color: HexColor.fromHex("616575"),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ],

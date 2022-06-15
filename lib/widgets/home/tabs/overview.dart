@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasks/blocs/blocs.dart';
-import 'package:tasks/models/data_model.dart';
+import 'package:tasks/models/models.dart';
 import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/custom_circular_progress.dart';
 import 'package:tasks/widgets/custom_error_message.dart';
@@ -14,33 +14,38 @@ class ResumenTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dynamic data = AppData.progressIndicatorList;
-    final tCardcontroller = TCardController();
-
-    List<Widget> cards = List.generate(
-      2,
-      (index) => TaskProgressCard(
-        cardTitle: data[index]['cardTitle'],
-        rating: data[index]['rating'],
-        progressFigure: data[index]['progress'],
-        percentageGap: int.parse(data[index]['progressBar']),
-      ),
-    );
+    // List<Widget> cards = List.generate(
+    //   2,
+    //   (index) => TaskProgressCard(
+    //     cardTitle: data[index]['cardTitle'],
+    //     rating: data[index]['rating'],
+    //     progressFigure: data[index]['progress'],
+    //     percentageGap: int.parse(data[index]['progressBar']),
+    //   ),
+    // );
 
     return Column(
       children: [
-        SizedBox(
-          height: 150,
-          child: TCard(
-            controller: tCardcontroller,
-            cards: cards,
-            onEnd: () {
-              tCardcontroller.state!.reset();
-            },
-          ),
+        BlocBuilder<TaskBloc, TaskState>(
+          builder: (context, state) {
+            if (state is TasksLoading) {
+              return const CustomCircularProgress();
+            }
+
+            if (state is TasksLoaded) {
+              final tasks = state.tasks;
+              return Column(
+                children: [
+                  _ProgressCards(tasks: tasks),
+                  AppSpaces.verticalSpace10,
+                  _TaskCards(tasks: tasks),
+                ],
+              );
+            } else {
+              return const CustomErrorMessage();
+            }
+          },
         ),
-        AppSpaces.verticalSpace10,
-        const _TaskCards(),
         OverviewTaskContainer(
           cardTitle: "Proyectos Totales",
           numberOfItems: 8,
@@ -52,42 +57,65 @@ class ResumenTab extends StatelessWidget {
   }
 }
 
-class _TaskCards extends StatelessWidget {
-  const _TaskCards({Key? key}) : super(key: key);
+class _ProgressCards extends StatelessWidget {
+  final List<Task> tasks;
+  _ProgressCards({Key? key, required this.tasks}) : super(key: key);
+  final tCardcontroller = TCardController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskBloc, TaskState>(
-      builder: (context, state) {
-        if (state is TasksLoading) {
-          return const CustomCircularProgress();
-        }
+    final completedTasksNumber =
+        tasks.where((task) => task.isCompleted == true).toList().length;
 
-        if (state is TasksLoaded) {
-          final tasks = state.tasks;
+    List<Widget> cards = [
+      TaskProgressCard(
+        cardTitle: 'Progeso de Tareas',
+        rating: '$completedTasksNumber/${tasks.length}',
+        progress: (completedTasksNumber / tasks.length) * 100,
+      ),
+      TaskProgressCard(
+        cardTitle: 'Progreso de Proyectos',
+        rating: "3/4",
+        progress: 75.00,
+      ),
+    ];
 
-          final completedTasksNumber =
-              tasks.where((task) => task.isCompleted == true).toList().length;
-          return Column(
-            children: [
-              OverviewTaskContainer(
-                cardTitle: "Tareas Totales",
-                numberOfItems: tasks.length,
-                imageUrl: "assets/orange_pencil.png",
-                backgroundColor: HexColor.fromHex("EFA17D"),
-              ),
-              OverviewTaskContainer(
-                cardTitle: "Completadas",
-                numberOfItems: completedTasksNumber,
-                imageUrl: "assets/green_pencil.png",
-                backgroundColor: HexColor.fromHex("7FBC69"),
-              ),
-            ],
-          );
-        } else {
-          return const CustomErrorMessage();
-        }
-      },
+    return SizedBox(
+      height: 150,
+      child: TCard(
+        controller: tCardcontroller,
+        cards: cards,
+        onEnd: () {
+          tCardcontroller.state!.reset();
+        },
+      ),
+    );
+  }
+}
+
+class _TaskCards extends StatelessWidget {
+  final List<Task> tasks;
+  const _TaskCards({Key? key, required this.tasks}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final completedTasksNumber =
+        tasks.where((task) => task.isCompleted == true).toList().length;
+    return Column(
+      children: [
+        OverviewTaskContainer(
+          cardTitle: "Tareas Totales",
+          numberOfItems: tasks.length,
+          imageUrl: "assets/orange_pencil.png",
+          backgroundColor: HexColor.fromHex("EFA17D"),
+        ),
+        OverviewTaskContainer(
+          cardTitle: "Completadas",
+          numberOfItems: completedTasksNumber,
+          imageUrl: "assets/green_pencil.png",
+          backgroundColor: HexColor.fromHex("7FBC69"),
+        ),
+      ],
     );
   }
 }

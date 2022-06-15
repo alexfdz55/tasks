@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasks/Values/values.dart';
+import 'package:tasks/values/values.dart';
 import 'package:tasks/screens/screens.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 class SheetGoToCalendarWidget extends StatelessWidget {
   final String label;
@@ -24,15 +26,18 @@ class SheetGoToCalendarWidget extends StatelessWidget {
 
         // Get.to(() => TaskDueDateScreen());
       },
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        CircularCalendarCard(color: cardBackgroundColor),
-        AppSpaces.horizontalSpace10,
-        CircularCardLabel(
-          label: label,
-          value: value,
-          color: textAccentColor,
-        )
-      ]),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircularCalendarCard(color: cardBackgroundColor),
+          AppSpaces.horizontalSpace10,
+          CircularCardLabel(
+            label: label,
+            value: value,
+            color: textAccentColor,
+          )
+        ],
+      ),
     );
   }
 }
@@ -58,11 +63,13 @@ class CircularCardLabel extends StatelessWidget {
   final String? label;
   final String? value;
   final Color? color;
+  // final ValueNotifier<DateTime>? notifier;
   const CircularCardLabel({
     Key? key,
     this.label,
     this.color,
     this.value,
+    // this.notifier,
   }) : super(key: key);
 
   @override
@@ -78,8 +85,21 @@ class CircularCardLabel extends StatelessWidget {
                 fontSize: 16, color: HexColor.fromHex("626777"))),
         Text(
           value!,
+          // notifier!.value == DateTime(1900)
+          //     ? '_______'
+          //     : DateFormat('dd/MM/y').format(notifier!.value),
           style: GoogleFonts.lato(fontSize: 16, color: color),
         ),
+        // ValueListenableBuilder(
+        //   valueListenable: notifier!,
+        //   builder: (BuildContext context, _, __) => Text(
+        //     value!,
+        //     // notifier!.value == DateTime(1900)
+        //     //     ? '_______'
+        //     //     : DateFormat('dd/MM/y').format(notifier!.value),
+        //     style: GoogleFonts.lato(fontSize: 16, color: color),
+        //   ),
+        // ),
       ],
     );
   }

@@ -32,6 +32,7 @@ class Task extends Equatable {
   String toString() => title;
 
   Task copyWith({
+    String? id,
     String? title,
     String? description,
     TaskPriority? priority,
@@ -39,7 +40,7 @@ class Task extends Equatable {
     bool? isCompleted,
   }) {
     return Task(
-      id: id,
+      id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       priority: priority ?? this.priority,

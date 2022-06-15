@@ -13,9 +13,15 @@ final List<Widget> dashBoardScreens = [
 
 List<Color> progressCardGradientList = [
   //grenn
-  HexColor.fromHex("87EFB5"),
-  //blue
-  HexColor.fromHex("8ABFFC"),
+  // HexColor.fromHex("87EFB5"),
+
+  // blue
+  // HexColor.fromHex("8ABFFC"),
   //pink
+  // HexColor.fromHex("EEB2E8"),
+
+  HexColor.fromHex("8ABFFC"),
+  // HexColor.fromHex("87EFB5"),
   HexColor.fromHex("EEB2E8"),
+  Colors.purple,
 ];

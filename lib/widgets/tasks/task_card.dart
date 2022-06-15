@@ -12,21 +12,14 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final bool newBool = task.isCompleted;
-    // ValueNotifier<bool> totalDueTrigger = ValueNotifier(newBool);
-
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
         final taskBloc = BlocProvider.of<TaskBloc>(context);
 
         return task.isCompleted
-            ? InactiveTaskCard(
-                task: task,
-                // notifier: totalDueTrigger,
-              )
+            ? InactiveTaskCard(task: task)
             : ActiveTaskCard(
                 task: task,
-                // notifier: totalDueTrigger,
                 onDelete: () => taskBloc.add(RemoveTask(task)),
               );
 

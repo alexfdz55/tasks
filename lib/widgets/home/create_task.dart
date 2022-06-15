@@ -4,10 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/blocs/blocs.dart';
 import 'package:tasks/models/task_model.dart';
 import 'package:tasks/Values/values.dart';
+import 'package:tasks/screens/screens.dart';
 import 'package:tasks/widgets/BottomSheets/bottom_sheet_holder.dart';
+import 'package:tasks/widgets/custom_error_message.dart';
 import 'package:tasks/widgets/home/sheet_goto_calendar.dart';
 import 'package:tasks/widgets/Forms/form_input_unlabelled.dart';
 import 'package:tasks/widgets/text_outlined_button.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class CreateTaskBottomSheet extends StatelessWidget {
@@ -16,11 +20,17 @@ class CreateTaskBottomSheet extends StatelessWidget {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   TaskPriority _taskPriority = TaskPriority.low;
+  // DateTime? dateTime;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final taskBloc = BlocProvider.of<TaskBloc>(context);
+    taskBloc.add(CreateTask(Task(
+      id: DateTime.now().toString(),
+      title: '',
+    )));
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -29,79 +39,123 @@ class CreateTaskBottomSheet extends StatelessWidget {
           AppSpaces.verticalSpace10,
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppSpaces.verticalSpace20,
-                _buildNameField(),
-                AppSpaces.verticalSpace20,
-                _buildDescriptionField(),
-                AppSpaces.verticalSpace20,
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SheetGoToCalendarWidget(
-                        cardBackgroundColor: HexColor.fromHex("7DBA67"),
-                        textAccentColor: HexColor.fromHex("A9F49C"),
-                        value: 'Today 3:00PM',
-                        label: 'Fecha',
-                      ),
-                      _buildDropdownPriority(),
-                    ]),
-                // Spacer(),
-                AppSpaces.verticalSpace20,
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: OutlinedButtonWithText(
-                      width: 250,
-                      content: "Crear Tarea",
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          BlocProvider.of<TaskBloc>(context).add(
-                            AddTask(
-                              Task(
-                                id: DateTime.now().toString(),
-                                title: _nameController.text,
-                                description: _descriptionController.text,
-                                priority: _taskPriority,
-                              ),
-                            ),
-                          );
-                          Navigator.pop(context);
-                        }
-                      },
-                    ),
-                  ),
+            child: BlocBuilder<TaskBloc, TaskState>(
+              // buildWhen: ((previous, current) => current is TaskShowed),
+              builder: (context, state) {
+                if (state is TaskShowed) {
+                  DateTime? dateTime = state.task.dateTime;
+                  print(dateTime);
 
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     SizedBox(
-                  //       width: Utils.screenWidth * 0.6,
-                  //       child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         children: [
-                  //           const BottomSheetIcon(
-                  //               icon: Icons.local_offer_outlined),
-                  //           Transform.rotate(
-                  //               angle: 195.2,
-                  //               child: const BottomSheetIcon(
-                  //                   icon: Icons.attach_file)),
-                  //           const BottomSheetIcon(icon: FeatherIcons.flag),
-                  //           const BottomSheetIcon(icon: FeatherIcons.image)
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     AddSubIcon(
-                  //       scale: 0.8,
-                  //       color: AppColors.primaryAccentColor,
-                  //       callback: () => _addProject,
-                  //     ),
-                  //   ],
-                  // )
-                ),
-              ],
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppSpaces.verticalSpace20,
+                      _buildNameField(),
+                      AppSpaces.verticalSpace20,
+                      _buildDescriptionField(),
+                      AppSpaces.verticalSpace20,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // SheetGoToCalendarWidget(
+                          //   cardBackgroundColor: HexColor.fromHex("7DBA67"),
+                          //   textAccentColor: HexColor.fromHex("A9F49C"),
+                          //   value: 'Today 3:00PM',
+                          //   label: 'Fecha',
+                          // ),
+                          InkWell(
+                            onTap: () async {
+                              final date = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const TaskDueDateScreen()),
+                              );
+                              taskBloc.add(CreateTask(
+                                  state.task.copyWith(dateTime: date)));
+
+                              // _dateNotifier.value = dateTime!;
+                              // dateTime = await Navigator.pushNamed(
+                              //     context, TaskDueDateScreen.routeName);
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircularCalendarCard(
+                                    color: HexColor.fromHex("7DBA67")),
+                                AppSpaces.horizontalSpace10,
+                                CircularCardLabel(
+                                  // notifier: _dateNotifier,
+                                  label: 'Fecha',
+                                  value: dateTime == null
+                                      ? '_______'
+                                      : DateFormat('dd/MM/y').format(dateTime),
+                                  color: HexColor.fromHex("A9F49C"),
+                                )
+                              ],
+                            ),
+                          ),
+                          _buildDropdownPriority(),
+                        ],
+                      ),
+                      // Spacer(),
+                      AppSpaces.verticalSpace20,
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: OutlinedButtonWithText(
+                            width: 250,
+                            content: "Crear Tarea",
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                BlocProvider.of<TaskBloc>(context).add(
+                                  AddTask(state.task.copyWith(
+                                    id: DateTime.now().toString(),
+                                    title: _nameController.text,
+                                    description: _descriptionController.text,
+                                    priority: _taskPriority,
+                                    dateTime: dateTime,
+                                  )),
+                                );
+                                Navigator.pop(context);
+                              }
+                            },
+                          ),
+                        ),
+
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     SizedBox(
+                        //       width: Utils.screenWidth * 0.6,
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           const BottomSheetIcon(
+                        //               icon: Icons.local_offer_outlined),
+                        //           Transform.rotate(
+                        //               angle: 195.2,
+                        //               child: const BottomSheetIcon(
+                        //                   icon: Icons.attach_file)),
+                        //           const BottomSheetIcon(icon: FeatherIcons.flag),
+                        //           const BottomSheetIcon(icon: FeatherIcons.image)
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     AddSubIcon(
+                        //       scale: 0.8,
+                        //       color: AppColors.primaryAccentColor,
+                        //       callback: () => _addProject,
+                        //     ),
+                        //   ],
+                        // )
+                      ),
+                    ],
+                  );
+                } else {
+                  return const CustomErrorMessage();
+                }
+              },
             ),
           ),
         ],

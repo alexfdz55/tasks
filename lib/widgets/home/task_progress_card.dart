@@ -6,15 +6,13 @@ import 'package:tasks/values/constants.dart';
 class TaskProgressCard extends StatelessWidget {
   final String cardTitle;
   final String rating;
-  final String progressFigure;
-  final int percentageGap;
-  const TaskProgressCard(
-      {Key? key,
-      required this.rating,
-      required this.cardTitle,
-      required this.progressFigure,
-      required this.percentageGap})
-      : super(key: key);
+  final double progress;
+  const TaskProgressCard({
+    Key? key,
+    required this.rating,
+    required this.cardTitle,
+    required this.progress,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,30 +58,30 @@ class TaskProgressCard extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                        width: 220,
-                        height: 10,
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                            color: Colors.white),
-                        child: Row(children: [
-                          Expanded(
-                            flex: percentageGap,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20.0),
-                                  bottomLeft: Radius.circular(20.0),
-                                ),
+                      width: 220,
+                      height: 10,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          color: Colors.white),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: progress * 220 / 100,
+                            decoration: const BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                bottomLeft: Radius.circular(20.0),
                               ),
                             ),
                           ),
-                          const Expanded(flex: 1, child: SizedBox())
-                        ])),
+                          const Expanded(child: SizedBox())
+                        ],
+                      ),
+                    ),
                     const Spacer(),
                     Text(
-                      "$progressFigure%",
+                      "${progress.toStringAsFixed(1)}%",
                       style: GoogleFonts.lato(fontWeight: FontWeight.bold),
                     ),
                   ],

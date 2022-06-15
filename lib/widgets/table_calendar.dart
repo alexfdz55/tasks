@@ -10,7 +10,8 @@ const kBlueCircleForCalendar = BoxDecoration(
 );
 
 class CalendarView extends StatefulWidget {
-  const CalendarView({Key? key}) : super(key: key);
+  final Function(DateTime dateTime) onPressedDay;
+  const CalendarView({Key? key, required this.onPressedDay}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -106,6 +107,8 @@ class _CalendarViewState extends State<CalendarView> {
           return isSameDay(_selectedDay, day);
         },
         onDaySelected: (selectedDay, focusedDay) {
+          widget.onPressedDay(selectedDay);
+          print('object');
           if (!isSameDay(_selectedDay, selectedDay)) {
             // Call `setState()` when updating the selected day
             setState(() {

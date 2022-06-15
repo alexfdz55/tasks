@@ -17,3 +17,12 @@ class TasksLoaded extends TaskState {
   @override
   List<Object> get props => [tasks];
 }
+
+class TaskShowed extends TaskState {
+  final Task task;
+
+  const TaskShowed(this.task);
+
+  @override
+  List<Object> get props => [task];
+}

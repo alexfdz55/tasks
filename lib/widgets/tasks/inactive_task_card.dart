@@ -81,8 +81,12 @@ class InactiveTaskCard extends StatelessWidget {
                 ),
               ],
             ),
-            Text(DateFormat('MMMM d').format(DateTime.now()),
-                style: GoogleFonts.lato(color: HexColor.fromHex("5A5E6D")))
+            Text(
+              task.dateTime == null
+                  ? ''
+                  : DateFormat('MMMM d').format(task.dateTime!),
+              style: GoogleFonts.lato(color: HexColor.fromHex("5A5E6D")),
+            ),
           ],
         ),
       ),
