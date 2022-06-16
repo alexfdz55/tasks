@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/Values/values.dart';
-import 'package:tasks/widgets/Buttons/primary_tab_buttons.dart';
+import 'package:tasks/widgets/buttons/primary_tab_buttons.dart';
 import 'package:tasks/widgets/dark_background/dark_radial_background.dart';
-import 'package:tasks/widgets/Projects/layout_list_tile.dart';
-import 'package:tasks/widgets/Projects/project_detail_appbar.dart';
-import 'package:tasks/widgets/Projects/project_task_card.dart';
-import 'package:tasks/widgets/Shapes/app_settings_icon.dart';
+import 'package:tasks/widgets/projects/layout_list_tile.dart';
+import 'package:tasks/widgets/projects/project_detail_appbar.dart';
+import 'package:tasks/widgets/projects/project_task_card.dart';
+import 'package:tasks/widgets/shapes/app_settings_icon.dart';
 
 // ignore: must_be_immutable
 class ProjectDetailsScreen extends StatelessWidget {
@@ -64,17 +64,20 @@ class ProjectDetailsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               PrimaryTabButton(
-                                  buttonText: "All Tasks",
-                                  itemIndex: 0,
-                                  notifier: _settingsButtonTrigger),
+                                buttonText: "All Tasks",
+
+                                // notifier: _settingsButtonTrigger
+                              ),
                               PrimaryTabButton(
-                                  buttonText: "Recent",
-                                  itemIndex: 1,
-                                  notifier: _settingsButtonTrigger),
+                                buttonText: "Recent",
+
+                                // notifier: _settingsButtonTrigger
+                              ),
                               PrimaryTabButton(
-                                  buttonText: "Starred",
-                                  itemIndex: 2,
-                                  notifier: _settingsButtonTrigger)
+                                buttonText: "Starred",
+
+                                // notifier: _settingsButtonTrigger
+                              )
                             ],
                           ),
 

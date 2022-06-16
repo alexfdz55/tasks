@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasks/cubits/cubit_notifier.dart';
 import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/BottomSheets/bottom_sheets.dart';
 import 'package:tasks/widgets/BottomSheets/dashboard_settings_sheet.dart';
-import 'package:tasks/widgets/Buttons/primary_tab_buttons.dart';
+import 'package:tasks/widgets/buttons/primary_tab_buttons.dart';
 import 'package:tasks/widgets/Shapes/app_settings_icon.dart';
-import '../widgets/home/tabs/overview.dart';
-import '../widgets/home/tabs/productivity.dart';
+import 'components/tabs/overview.dart';
+import 'components/tabs/productivity.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -20,7 +22,9 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  final ValueNotifier<int> _buttonTrigger = ValueNotifier(0);
+  final _homeTabNotifier = CubitNotifier<int>(0);
+
+  // final ValueNotifier<int> _buttonTrigger = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
@@ -52,44 +56,44 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      PrimaryTabButton(
-                        buttonText: "Resumen",
-                        itemIndex: 0,
-                        notifier: _buttonTrigger,
-                      ),
-                      PrimaryTabButton(
-                        buttonText: "Productividad",
-                        itemIndex: 1,
-                        notifier: _buttonTrigger,
-                      )
-                    ],
+                  BlocBuilder<CubitNotifier<int>, int>(
+                    bloc: _homeTabNotifier,
+                    builder: (context, state) => Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        PrimaryTabButton(
+                          buttonText: "Resumen",
+                          isSelected: state == 0,
+                          callback: () => _homeTabNotifier.value = 0,
+                        ),
+                        PrimaryTabButton(
+                          buttonText: "Productividad",
+                          isSelected: state == 1,
+                          callback: () => _homeTabNotifier.value = 1,
+                        )
+                      ],
+                    ),
                   ),
                   Container(
-                      alignment: Alignment.centerRight,
-                      child: AppSettingsIcon(
-                        callback: () {
-                          // ignore: void_checks
-                          return showAppBottomSheet(
-                            context,
-                            const DashboardSettingsBottomSheet(),
-                          );
-                        },
-                      ))
+                    alignment: Alignment.centerRight,
+                    child: AppSettingsIcon(
+                      callback: () {
+                        // ignore: void_checks
+                        return showAppBottomSheet(
+                          context,
+                          const DashboardSettingsBottomSheet(),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
               AppSpaces.verticalSpace20,
-              ValueListenableBuilder(
-                valueListenable: _buttonTrigger,
-                builder: (BuildContext context, _, __) {
-                  return _buttonTrigger.value == 0
-                      ? const ResumenTab()
-                      : const ProductivityTab();
-                },
+              BlocBuilder<CubitNotifier<int>, int>(
+                bloc: _homeTabNotifier,
+                builder: (context, state) =>
+                    state == 0 ? const ResumenTab() : const ProductivityTab(),
               ),
-              // false ? const ResumenTab() : const ProductivityTab(),
             ],
           ),
         ),

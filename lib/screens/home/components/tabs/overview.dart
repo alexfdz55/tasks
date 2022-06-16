@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasks/blocs/blocs.dart';
+import 'package:tasks/cubits/cubits.dart';
 import 'package:tasks/models/models.dart';
 import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/custom_circular_progress.dart';
@@ -14,6 +15,7 @@ class ResumenTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomNavCubit = BlocProvider.of<BottomNavCubit>(context);
     // List<Widget> cards = List.generate(
     //   2,
     //   (index) => TaskProgressCard(
@@ -51,6 +53,7 @@ class ResumenTab extends StatelessWidget {
           numberOfItems: 8,
           imageUrl: "assets/cone.png",
           backgroundColor: HexColor.fromHex("EDA7FA"),
+          onPressed: () => bottomNavCubit.emit(BottomNavTabs.projects),
         ),
       ],
     );
@@ -101,6 +104,9 @@ class _TaskCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomNavCubit = BlocProvider.of<BottomNavCubit>(context);
+    final taskTabsCubit = BlocProvider.of<TaskTabsCubit>(context);
+
     final completedTasksNumber =
         tasks.where((task) => task.isCompleted == true).toList().length;
     return Column(
@@ -110,13 +116,17 @@ class _TaskCards extends StatelessWidget {
           numberOfItems: tasks.length,
           imageUrl: "assets/orange_pencil.png",
           backgroundColor: HexColor.fromHex("EFA17D"),
+          onPressed: () => bottomNavCubit.emit(BottomNavTabs.tasks),
         ),
         OverviewTaskContainer(
-          cardTitle: "Completadas",
-          numberOfItems: completedTasksNumber,
-          imageUrl: "assets/green_pencil.png",
-          backgroundColor: HexColor.fromHex("7FBC69"),
-        ),
+            cardTitle: "Completadas",
+            numberOfItems: completedTasksNumber,
+            imageUrl: "assets/green_pencil.png",
+            backgroundColor: HexColor.fromHex("7FBC69"),
+            onPressed: () {
+              bottomNavCubit.emit(BottomNavTabs.tasks);
+              taskTabsCubit.emit(TaskTabs.completadas);
+            }),
       ],
     );
   }

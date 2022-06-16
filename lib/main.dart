@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tasks/blocs/blocs.dart';
+import 'package:tasks/cubits/cubits.dart';
 import 'package:tasks/models/models.dart';
 import 'package:tasks/repositories/repositories.dart';
-
 import 'config/app_router.dart';
 import 'screens/splash_screen.dart';
 
@@ -32,11 +32,14 @@ class MyApp extends StatelessWidget {
       providers: [RepositoryProvider(create: (context) => LocalBDRepository())],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context) => BottomNavCubit()),
           BlocProvider(
             create: (context) => TaskBloc(
                 bdRepository: RepositoryProvider.of<LocalBDRepository>(context))
               ..add(LoadTasks()),
-          )
+          ),
+          BlocProvider(create: (context) => TaskTabsCubit()),
+          BlocProvider(create: (context) => SearchTaskBloc()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

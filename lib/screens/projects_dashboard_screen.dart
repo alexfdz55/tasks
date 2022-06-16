@@ -44,17 +44,20 @@ class ProjectScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               PrimaryTabButton(
-                  buttonText: "Favorites",
-                  itemIndex: 0,
-                  notifier: _settingsButtonTrigger),
+                buttonText: "Favorites",
+
+                // notifier: _settingsButtonTrigger
+              ),
               PrimaryTabButton(
-                  buttonText: "Recent",
-                  itemIndex: 1,
-                  notifier: _settingsButtonTrigger),
+                buttonText: "Recent",
+
+                // notifier: _settingsButtonTrigger
+              ),
               PrimaryTabButton(
-                  buttonText: "All",
-                  itemIndex: 2,
-                  notifier: _settingsButtonTrigger)
+                buttonText: "All",
+
+                // notifier: _settingsButtonTrigger
+              )
             ],
           ),
           Container(
