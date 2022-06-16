@@ -26,7 +26,7 @@ class Task extends Equatable {
     this.priority = TaskPriority.low,
     this.dateTime,
     this.description,
-    required this.hexColor,
+    this.hexColor = '673ab7',
     this.isCompleted = false,
   });
 

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasks/cubits/cubit_notifier.dart';
 import 'package:tasks/values/values.dart';
 import 'package:tasks/screens/screens.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:tasks/widgets/tasks/select_color.dart';
 
 class SheetGoToCalendarWidget extends StatelessWidget {
   final String label;
@@ -59,38 +62,15 @@ class CircularCalendarCard extends StatelessWidget {
   }
 }
 
-class CircularColorCard extends StatelessWidget {
-  final ValueNotifier<Color> notifier;
-  const CircularColorCard({
-    Key? key,
-    required this.notifier,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: notifier,
-      builder: (BuildContext context, Color color, __) => Container(
-        width: 40 * 1.5,
-        height: 40 * 1.5,
-        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-        child: const Icon(Icons.color_lens, color: Colors.white),
-      ),
-    );
-  }
-}
-
 class CircularCardLabel extends StatelessWidget {
   final String? label;
   final String? value;
   final Color? color;
-  final ValueNotifier<DateTime?>? notifier;
   const CircularCardLabel({
     Key? key,
     this.label,
     this.color,
     this.value,
-    this.notifier,
   }) : super(key: key);
 
   @override
@@ -104,23 +84,23 @@ class CircularCardLabel extends StatelessWidget {
         Text(label!,
             style: GoogleFonts.lato(
                 fontSize: 16, color: HexColor.fromHex("626777"))),
-        // Text(
-        //   value!,
-        //   // notifier!.value == DateTime(1900)
-        //   //     ? '_______'
-        //   //     : DateFormat('dd/MM/y').format(notifier!.value),
-        //   style: GoogleFonts.lato(fontSize: 16, color: color),
-        // ),
-        ValueListenableBuilder(
-          valueListenable: notifier!,
-          builder: (BuildContext context, _, __) => Text(
-            // value!,
-            notifier!.value == null
-                ? '_______'
-                : DateFormat('dd/MM/y').format(notifier!.value!),
-            style: GoogleFonts.lato(fontSize: 16, color: color),
-          ),
+        Text(
+          value!,
+          // notifier!.value == DateTime(1900)
+          //     ? '_______'
+          //     : DateFormat('dd/MM/y').format(notifier!.value),
+          style: GoogleFonts.lato(fontSize: 16, color: color),
         ),
+        // ValueListenableBuilder(
+        //   valueListenable: notifier!,
+        //   builder: (BuildContext context, _, __) => Text(
+        //     // value!,
+        //     notifier!.value == null
+        //         ? '_______'
+        //         : DateFormat('dd/MM/y').format(notifier!.value!),
+        //     style: GoogleFonts.lato(fontSize: 16, color: color),
+        //   ),
+        // ),
       ],
     );
   }

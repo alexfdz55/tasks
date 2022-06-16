@@ -37,7 +37,8 @@ class TaskDueDateScreen extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(right: 20, left: 20),
-                  child: TaskezAppHeader(title: "Due Date", widget: SizedBox()),
+                  child: TaskezAppHeader(
+                      title: "Seleccione Fecha y hora", widget: SizedBox()),
                 ),
                 const SizedBox(height: 40),
                 Expanded(
@@ -80,7 +81,7 @@ class TaskDueDateScreen extends StatelessWidget {
                 children: [
                   TextButton(
                     child: Text(
-                      'Cancel',
+                      'Cancelar',
                       style: GoogleFonts.lato(
                           color: HexColor.fromHex("F49189"),
                           fontSize: 18,
@@ -112,7 +113,7 @@ class TaskDueDateScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ConditionText(
-              label: "Due Time",
+              label: "Hora",
               color: HexColor.fromHex("BE5EF6"),
               value: "12:30 PM"),
           AppSpaces.horizontalSpace20,
@@ -124,9 +125,9 @@ class TaskDueDateScreen extends StatelessWidget {
           AppSpaces.horizontalSpace20,
           AppSpaces.horizontalSpace20,
           ConditionText(
-              label: "Repeat",
+              label: "Repetir",
               color: HexColor.fromHex("93EEEE"),
-              value: "Never"),
+              value: "Nunca"),
         ],
       ),
     );
@@ -146,27 +147,54 @@ class ConditionText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.lato(
-              fontSize: 16,
-              color: HexColor.fromHex("686C7D"),
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.lato(
+                fontSize: 16,
+                color: HexColor.fromHex("686C7D"),
+              ),
             ),
-          ),
-          AppSpaces.verticalSpace10,
-          Text(
-            value,
-            style: GoogleFonts.lato(
-                color: color, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ],
+            AppSpaces.verticalSpace10,
+            Text(
+              value,
+              style: GoogleFonts.lato(
+                  color: color, fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
+      onTap: () {
+        _selectTime(context);
+      },
     );
+  }
+
+  _selectTime(BuildContext context) async {
+    final dateNow = DateTime.now();
+
+    final timeNow = TimeOfDay(hour: dateNow.hour, minute: dateNow.hour);
+    final TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: timeNow,
+      builder: (context, widget) => Theme(
+        data: ThemeData.dark().copyWith(
+          backgroundColor: HexColor.fromHex("#181a1f"),
+          dialogBackgroundColor: HexColor.fromHex("#181a1f"),
+          dialogTheme: DialogTheme(
+            backgroundColor: HexColor.fromHex("#181a1f"),
+          ),
+        ),
+        child: widget!,
+      ),
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (timeOfDay != null && timeOfDay != dateNow) {}
   }
 }
