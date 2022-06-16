@@ -64,14 +64,16 @@ class _ProgressCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final totalTasks = tasks.length;
     final completedTasksNumber =
         tasks.where((task) => task.isCompleted == true).toList().length;
 
     List<Widget> cards = [
       TaskProgressCard(
-        cardTitle: 'Progeso de Tareas',
-        rating: '$completedTasksNumber/${tasks.length}',
-        progress: (completedTasksNumber / tasks.length) * 100,
+        cardTitle: 'Progreso de Tareas',
+        rating: '$completedTasksNumber/$totalTasks',
+        progress:
+            totalTasks == 0 ? 0 : (completedTasksNumber / totalTasks) * 100,
       ),
       TaskProgressCard(
         cardTitle: 'Progreso de Proyectos',

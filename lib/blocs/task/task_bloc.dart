@@ -25,8 +25,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   void _onLoadTasks(LoadTasks event, Emitter<TaskState> emit) async {
     emit(TasksLoading());
-
-    final tasks = await _bdRepository.getTasks();
+    await _bdRepository.openBox();
+    final tasks = _bdRepository.getTasks();
 
     // await Future.delayed(const Duration(m));
     emit(TasksLoaded(tasks: tasks));
@@ -34,6 +34,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   void _onAddTask(AddTask event, Emitter<TaskState> emit) async {
     emit(TasksLoading());
+
     await _bdRepository.addTask(event.task);
     add(LoadTasks());
   }
@@ -44,12 +45,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   void _onRemoveTask(RemoveTask event, Emitter<TaskState> emit) async {
     emit(TasksLoading());
+    await _bdRepository.openBox();
     await _bdRepository.removeTask(event.task);
     add(LoadTasks());
   }
 
   void _onUpdateTask(UpdateTask event, Emitter<TaskState> emit) async {
     emit(TasksLoading());
+
     await _bdRepository.updateTask(event.task);
     add(LoadTasks());
   }

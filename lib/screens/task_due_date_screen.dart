@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tasks/cubits/cubit_notifier.dart';
 import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/Buttons/primary_progress_button.dart';
 import 'package:tasks/widgets/dark_background/dark_radial_background.dart';
@@ -7,16 +9,18 @@ import 'package:tasks/widgets/Navigation/app_header.dart';
 import 'package:tasks/widgets/table_calendar.dart';
 
 class TaskDueDateScreen extends StatelessWidget {
-  const TaskDueDateScreen({Key? key}) : super(key: key);
+  TaskDueDateScreen({Key? key}) : super(key: key);
 
   static const String routeName = '/task-due';
 
   static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => const TaskDueDateScreen(),
+      builder: (_) => TaskDueDateScreen(),
     );
   }
+
+  final _timeNotifier = CubitNotifier<TimeOfDay?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +64,7 @@ class TaskDueDateScreen extends StatelessWidget {
                                 onPressedDay: (date) => dateTime = date,
                               ),
                               AppSpaces.verticalSpace20,
-                              _buildTimerContainer()
+                              _buildTimerContainer(context),
                             ],
                           ),
                         ),
@@ -90,9 +94,18 @@ class TaskDueDateScreen extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                   ),
                   PrimaryProgressButton(
-                    label: "Aceptar",
-                    callback: () => Navigator.pop(context, dateTime),
-                  )
+                      label: "Aceptar",
+                      callback: () {
+                        if (_timeNotifier.value != null && dateTime != null) {
+                          dateTime = DateTime(
+                              dateTime!.year,
+                              dateTime!.month,
+                              dateTime!.day,
+                              _timeNotifier.value!.hour,
+                              _timeNotifier.value!.minute);
+                        }
+                        Navigator.pop(context, dateTime);
+                      })
                 ],
               ),
             ),
@@ -102,7 +115,7 @@ class TaskDueDateScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTimerContainer() {
+  Widget _buildTimerContainer(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 120,
@@ -112,10 +125,15 @@ class TaskDueDateScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ConditionText(
+          BlocBuilder<CubitNotifier<TimeOfDay?>, TimeOfDay?>(
+            bloc: _timeNotifier,
+            builder: (context, state) => ConditionText(
               label: "Hora",
               color: HexColor.fromHex("BE5EF6"),
-              value: "12:30 PM"),
+              value: _timeNotifier.value?.format(context) ?? '00:00',
+              onPressed: () => _selectTime(context),
+            ),
+          ),
           AppSpaces.horizontalSpace20,
           AppSpaces.horizontalSpace20,
           Container(
@@ -125,12 +143,49 @@ class TaskDueDateScreen extends StatelessWidget {
           AppSpaces.horizontalSpace20,
           AppSpaces.horizontalSpace20,
           ConditionText(
-              label: "Repetir",
-              color: HexColor.fromHex("93EEEE"),
-              value: "Nunca"),
+            label: "Repetir",
+            color: HexColor.fromHex("93EEEE"),
+            value: "Nunca",
+            onPressed: () {},
+          ),
         ],
       ),
     );
+  }
+
+  _selectTime(BuildContext context) async {
+    final dateNow = DateTime.now();
+
+    final timeNow = TimeOfDay(hour: dateNow.hour, minute: dateNow.hour);
+    final TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: ColorScheme.dark(
+              background: HexColor.fromHex("#181a1f"),
+              // change the border color
+              primary: HexColor.fromHex("BE5EF6"),
+              // change the text color
+              onSurface: HexColor.fromHex("BE5EF6"),
+            ),
+          ),
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+                // Using 12-Hour format
+                alwaysUse24HourFormat: false),
+            // If you want 24-Hour format, just change alwaysUse24HourFormat to true
+            child: child!,
+          ),
+        );
+      },
+    );
+
+    if (timeOfDay != null) {
+      _timeNotifier.value = timeOfDay;
+      // _timeNotifier.value = timeOfDay;
+    }
   }
 }
 
@@ -138,16 +193,19 @@ class ConditionText extends StatelessWidget {
   final String label;
   final String value;
   final Color color;
+  final VoidCallback onPressed;
   const ConditionText({
     required this.label,
     required this.value,
     required this.color,
     Key? key,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onPressed,
       child: Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
         child: Column(
@@ -170,31 +228,6 @@ class ConditionText extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        _selectTime(context);
-      },
     );
-  }
-
-  _selectTime(BuildContext context) async {
-    final dateNow = DateTime.now();
-
-    final timeNow = TimeOfDay(hour: dateNow.hour, minute: dateNow.hour);
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: timeNow,
-      builder: (context, widget) => Theme(
-        data: ThemeData.dark().copyWith(
-          backgroundColor: HexColor.fromHex("#181a1f"),
-          dialogBackgroundColor: HexColor.fromHex("#181a1f"),
-          dialogTheme: DialogTheme(
-            backgroundColor: HexColor.fromHex("#181a1f"),
-          ),
-        ),
-        child: widget!,
-      ),
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-    if (timeOfDay != null && timeOfDay != dateNow) {}
   }
 }

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tasks/blocs/blocs.dart';
+import 'package:tasks/models/models.dart';
 import 'package:tasks/repositories/repositories.dart';
-import 'package:tasks/values/values.dart';
 
 import 'config/app_router.dart';
 import 'screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarIconBrightness: Brightness.light,
@@ -36,6 +41,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Taskez',
+          themeMode: ThemeMode.dark,
           theme: ThemeData(
             brightness: Brightness.light,
             appBarTheme: const AppBarTheme(
@@ -52,61 +58,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-
-// class CubitNotifier<T> extends Cubit<T> {
-//   CubitNotifier(T initialValue) : super(initialValue);
-
-//   T get value => state;
-
-//   set value(T arg) {
-//     emit(arg);
-//   }
-// }
-
-// void main() => runApp(MyApp());
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       home: MyHomePage(title: 'Flutter Demo Home Page'),
-//     );
-//   }
-// }
-
-// class MyHomePage extends StatelessWidget {
-//   final notifier = CubitNotifier<int>(0);
-//   final String title;
-
-//   MyHomePage({Key? key, required this.title}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text(title)),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             const Text('You have pushed the button this many times:'),
-//             BlocBuilder<CubitNotifier<int>, int>(
-//               bloc: notifier,
-//               builder: (context, state) {
-//                 return Text(state.toString());
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () => notifier.value += 1,
-//         tooltip: 'Increment',
-//         child: const Icon(Icons.add),
-//       ),
-//     );
-//   }
-// }

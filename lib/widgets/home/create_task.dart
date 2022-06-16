@@ -62,16 +62,18 @@ class CreateTaskBottomSheet extends StatelessWidget {
                       content: "Crear Tarea",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          BlocProvider.of<TaskBloc>(context).add(
-                            AddTask(Task(
-                              id: DateTime.now().toString(),
-                              title: _nameController.text,
-                              description: _descriptionController.text,
-                              priority: _taskPriority,
-                              hexColor: _hexColor,
-                              dateTime: _date,
-                            )),
+                          final task = Task(
+                            id: DateTime.now().toString(),
+                            title: _nameController.text,
+                            description: _descriptionController.text,
+                            priority: _taskPriority.name,
+                            hexColor: _hexColor,
+                            dateTime: _date,
                           );
+                          BlocProvider.of<TaskBloc>(context).add(
+                            AddTask(task),
+                          );
+                          print(task);
                           Navigator.pop(context);
                         }
                       },

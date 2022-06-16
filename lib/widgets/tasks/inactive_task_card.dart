@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tasks/Values/values.dart';
 import 'package:tasks/blocs/blocs.dart';
+import 'package:tasks/helpers/dateToString.dart';
 import 'package:tasks/models/models.dart';
+import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/dummy/green_done_icon.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
-import 'dart:math' as math;
 
 class InactiveTaskCard extends StatelessWidget {
   final Task task;
@@ -77,9 +77,12 @@ class InactiveTaskCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              task.priority.name,
-                              style:
-                                  GoogleFonts.lato(color: task.priority.color),
+                              task.priority,
+                              style: GoogleFonts.lato(
+                                  color: TaskPriority.values
+                                      .firstWhere((element) =>
+                                          task.priority == element.name)
+                                      .color),
                             ),
                           ],
                         ),
@@ -108,14 +111,23 @@ class InactiveTaskCard extends StatelessWidget {
                     //       shape: BoxShape.circle),
                     //   child: Icon(Icons.task, color: colorFromHex(task.hexColor)!),
                     // ),
-                    const SizedBox(height: 20),
-                    Text(
-                      task.dateTime == null
-                          ? ''
-                          : DateFormat('MMMM d').format(task.dateTime!),
-                      style:
-                          GoogleFonts.lato(color: HexColor.fromHex("5A5E6D")),
-                    ),
+                    if (task.dateTime != null)
+                      Column(
+                        children: [
+                          AppSpaces.verticalSpace20,
+                          Text(
+                            dateToString(task.dateTime!),
+                            style: GoogleFonts.lato(
+                                color: HexColor.fromHex("5A5E6D")),
+                          ),
+                          // AppSpaces.verticalSpace20,
+                          Text(
+                            dateToHourString(context, task.dateTime!),
+                            style: GoogleFonts.lato(
+                                color: HexColor.fromHex("5A5E6D")),
+                          ),
+                        ],
+                      )
                   ],
                 ),
               ],

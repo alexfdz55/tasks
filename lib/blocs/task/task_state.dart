@@ -18,6 +18,8 @@ class TasksLoaded extends TaskState {
   List<Object> get props => [tasks];
 }
 
+// class RegisteringTasksHive extends TaskState {}
+
 // class TaskShowed extends TaskState {
 //   final Task task;
 

@@ -44,3 +44,5 @@ class RemoveTask extends TaskEvent {
   @override
   List<Object> get props => [task];
 }
+
+// class RegisterTasksHive extends TaskEvent {}

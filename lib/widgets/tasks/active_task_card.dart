@@ -5,11 +5,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tasks/Values/values.dart';
 import 'package:tasks/blocs/blocs.dart';
+import 'package:tasks/helpers/dateToString.dart';
 import 'package:tasks/models/models.dart';
-// ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
-
-import 'dart:math' as math;
 
 class ActiveTaskCard extends StatelessWidget {
   final Task task;
@@ -134,9 +131,12 @@ class ActiveTaskCard extends StatelessWidget {
                               ),
                               const SizedBox(width: 10),
                               Text(
-                                task.priority.name,
+                                task.priority,
                                 style: GoogleFonts.lato(
-                                    color: task.priority.color),
+                                    color: TaskPriority.values
+                                        .firstWhere((element) =>
+                                            task.priority == element.name)
+                                        .color),
                               ),
                             ],
                           ),
@@ -155,24 +155,33 @@ class ActiveTaskCard extends StatelessWidget {
                     // ),
                     Column(
                       children: [
+                        Icon(Icons.task,
+                            size: 40, color: colorFromHex(task.hexColor)!),
                         // Container(
                         //   width: 40,
                         //   height: 40,
                         //   decoration: BoxDecoration(
                         //       color: colorFromHex(task.hexColor)!,
                         //       shape: BoxShape.circle),
-                        //   child: const Icon(Icons.task, color: Colors.white),
+                        //   child: Icon(Icons.task, color: colorFromHex(task.hexColor)!),
                         // ),
-                        Icon(Icons.task,
-                            size: 40, color: colorFromHex(task.hexColor)!),
-                        const SizedBox(height: 20),
-                        Text(
-                          task.dateTime == null
-                              ? ''
-                              : DateFormat('MMMM d').format(task.dateTime!),
-                          style: GoogleFonts.lato(
-                              color: HexColor.fromHex("5A5E6D")),
-                        ),
+                        if (task.dateTime != null)
+                          Column(
+                            children: [
+                              AppSpaces.verticalSpace20,
+                              Text(
+                                dateToString(task.dateTime!),
+                                style: GoogleFonts.lato(
+                                    color: HexColor.fromHex("5A5E6D")),
+                              ),
+                              // AppSpaces.verticalSpace20,
+                              Text(
+                                dateToHourString(context, task.dateTime!),
+                                style: GoogleFonts.lato(
+                                    color: HexColor.fromHex("5A5E6D")),
+                              ),
+                            ],
+                          )
                       ],
                     ),
                   ],
