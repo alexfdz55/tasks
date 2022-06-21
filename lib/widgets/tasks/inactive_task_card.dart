@@ -7,22 +7,14 @@ import 'package:tasks/helpers/dateToString.dart';
 import 'package:tasks/models/models.dart';
 import 'package:tasks/values/values.dart';
 import 'package:tasks/widgets/dummy/green_done_icon.dart';
-// ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
 
 class InactiveTaskCard extends StatelessWidget {
   final Task task;
-  // final ValueNotifier<bool> notifier;
-  const InactiveTaskCard({
-    Key? key,
-    required this.task,
-    // required this.notifier,
-  }) : super(key: key);
+  const InactiveTaskCard({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () => notifier.value = !notifier.value,
       onTap: () {
         BlocProvider.of<TaskBloc>(context)
             .add(UpdateTask(task.copyWith(isCompleted: !task.isCompleted)));

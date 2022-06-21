@@ -7,6 +7,8 @@ abstract class SearchTaskEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ResetSearch extends SearchTaskEvent {}
+
 class SearchTask extends SearchTaskEvent {
   final String query;
   final List<Task> tasksBD;
@@ -16,3 +18,5 @@ class SearchTask extends SearchTaskEvent {
   @override
   List<Object> get props => [query];
 }
+
+class UpdateTaskSearch extends SearchTaskEvent {}

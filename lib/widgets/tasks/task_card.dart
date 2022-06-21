@@ -15,6 +15,7 @@ class TaskCard extends StatelessWidget {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
         final taskBloc = BlocProvider.of<TaskBloc>(context);
+        // print(state);
 
         return task.isCompleted
             ? InactiveTaskCard(task: task)

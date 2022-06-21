@@ -33,8 +33,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   void _onAddTask(AddTask event, Emitter<TaskState> emit) async {
-    emit(TasksLoading());
-
     await _bdRepository.addTask(event.task);
     add(LoadTasks());
   }
@@ -44,14 +42,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   // }
 
   void _onRemoveTask(RemoveTask event, Emitter<TaskState> emit) async {
-    emit(TasksLoading());
-    await _bdRepository.openBox();
     await _bdRepository.removeTask(event.task);
     add(LoadTasks());
   }
 
   void _onUpdateTask(UpdateTask event, Emitter<TaskState> emit) async {
-    emit(TasksLoading());
+    // emit(TasksLoading());
 
     await _bdRepository.updateTask(event.task);
     add(LoadTasks());

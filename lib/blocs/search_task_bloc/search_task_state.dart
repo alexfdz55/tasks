@@ -12,7 +12,7 @@ class SearchTaskInitial extends SearchTaskState {}
 class SearchResult extends SearchTaskState {
   final List<Task> tasks;
 
-  const SearchResult({required this.tasks});
+  const SearchResult({this.tasks = const <Task>[]});
 
   @override
   List<Object> get props => [tasks];

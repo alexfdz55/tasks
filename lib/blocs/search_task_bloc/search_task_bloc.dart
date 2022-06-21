@@ -8,7 +8,7 @@ part 'search_task_state.dart';
 class SearchTaskBloc extends Bloc<SearchTaskEvent, SearchTaskState> {
   SearchTaskBloc() : super(SearchTaskInitial()) {
     on<SearchTask>((event, emit) {
-      print(event.query);
+      // print(event.query);
       final suggestions = event.tasksBD.where((task) {
         final taskTitle = task.title.toLowerCase();
         final input = event.query.toLowerCase();
@@ -16,5 +16,9 @@ class SearchTaskBloc extends Bloc<SearchTaskEvent, SearchTaskState> {
       }).toList();
       emit(SearchResult(tasks: suggestions));
     });
+
+    on<ResetSearch>(((event, emit) {
+      emit(SearchTaskInitial());
+    }));
   }
 }
